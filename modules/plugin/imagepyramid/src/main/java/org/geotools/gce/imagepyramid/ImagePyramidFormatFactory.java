@@ -35,12 +35,12 @@ import org.opengis.coverage.grid.Format;
  */
 public final class ImagePyramidFormatFactory implements GridFormatFactorySpi {
 	/**
-	 * Tells us if this plugin is avaialble or not. Since usually coverage
+	 * Tells us if this plugin is available or not. Since usually coverage
 	 * plugins depend on JAI and ImageIO classes this method is suitable for
 	 * understanding if such a plugin is available or not, preventing users from
 	 * having problems later on when trying to instantiate it.
 	 * 
-	 * @return False if this plugin is not availaible true otherwise.
+	 * @return False if this plugin is not available true otherwise.
 	 */
 	public boolean isAvailable() {
 		boolean available = true;
@@ -64,7 +64,7 @@ public final class ImagePyramidFormatFactory implements GridFormatFactorySpi {
 	}
 
 	/**
-	 * Returns the implementation hints. The default implementation returns en
+	 * Returns the implementation hints. The default implementation returns an
 	 * empty map.
 	 * 
 	 * @return an empty map.

@@ -65,27 +65,27 @@ import org.opengis.referencing.datum.PixelInCell;
 import org.opengis.referencing.operation.TransformException;
 
 /**
- * This reader is repsonsible for providing access to a pyramid of mosaics of
+ * This reader is responsible for providing access to a pyramid of mosaics of
  * georeferenced coverages that are read directly through imageio readers, like
  * tiff, pngs, etc...
  * 
  * <p>
  * Specifically this plugin relies on the image mosaic plugin to handle each
- * single level of resolutions avaible, hence all the magic is done inside the
+ * single level of resolutions available, hence all the magic is done inside the
  * mosaic plugin.
  * 
  * 
  * <p>
- * For information on how to build a mosaic, please refere to the
+ * For information on how to build a mosaic, please refer to the
  * {@link ImageMosaicReader} documentation.
  * 
  * <p>
  * If you are looking for information on how to create a pyramid, here you go.
  * 
  * The pyramid itself does no magic. All the magic is performed by the single
- * mosaic readers that are polled depending on the requeste resolution levels.
+ * mosaic readers that are polled depending on the requested resolution levels.
  * Therefore the <b>first step</b> is having a mosaic of images like geotiff,
- * tiff, jpeg, or png which is going to be the base for te pyramid.
+ * tiff, jpeg, or png which is going to be the base for the pyramid.
  * 
  * <p>
  * The <b>second step</b> is to build the next (lower resolution) levels for
@@ -110,7 +110,7 @@ import org.opengis.referencing.operation.TransformException;
  *           Levels=1.2218682749859724E-5,9.220132503102996E-6 2.4428817977683634E-5,1.844026500620314E-5 4.8840552865873626E-5,3.686350299024973E-5 9.781791400307775E-5,7.372700598049946E-5 1.956358280061555E-4,1.4786360643866836E-4 3.901787184256844E-4,2.9572721287731037E-4
  *           #where all the levels reside
  *           LevelsDirs=0 2 4 8 16 32
- *           #number of levels availaible
+ *           #number of levels available
  *           LevelsNum=6
  *           #envelope for this pyramid
  *           Envelope2D=13.398228477973406,43.591366397808976 13.537912459169803,43.67121274528585
@@ -338,30 +338,29 @@ public final class ImagePyramidReader extends AbstractGridCoverage2DReader imple
 		GeneralEnvelope requestedEnvelope = null;
 		Rectangle dim = null;
 		OverviewPolicy overviewPolicy=null;
+
+		// /////////////////////////////////////////////////////////////////////
+		//
+		// Checking params
+		//
+		// /////////////////////////////////////////////////////////////////////
 		if (params != null) {
-			// /////////////////////////////////////////////////////////////////////
-			//
-			// Checking params
-			//
-			// /////////////////////////////////////////////////////////////////////
-			if (params != null) {
-				for (int i = 0; i < params.length; i++) {
-					@SuppressWarnings("rawtypes")
-                    final ParameterValue param = (ParameterValue) params[i];
-					if (param == null){
-						continue;
-					}
-					final String name = param.getDescriptor().getName().getCode();
-					if (name.equals(AbstractGridFormat.READ_GRIDGEOMETRY2D.getName().toString())) {
-						final GridGeometry2D gg = (GridGeometry2D) param.getValue();
-						requestedEnvelope = new GeneralEnvelope((Envelope)gg.getEnvelope2D());
-						dim = gg.getGridRange2D().getBounds();
-						continue;
-					}
-					if (name.equals(AbstractGridFormat.OVERVIEW_POLICY.getName().toString())) {
-						overviewPolicy = (OverviewPolicy) param.getValue();
-						continue;
-					}
+			for (int i = 0; i < params.length; i++) {
+				@SuppressWarnings("rawtypes")
+                final ParameterValue param = (ParameterValue) params[i];
+				if (param == null){
+					continue;
+				}
+				final String name = param.getDescriptor().getName().getCode();
+				if (name.equals(AbstractGridFormat.READ_GRIDGEOMETRY2D.getName().toString())) {
+					final GridGeometry2D gg = (GridGeometry2D) param.getValue();
+					requestedEnvelope = new GeneralEnvelope((Envelope)gg.getEnvelope2D());
+					dim = gg.getGridRange2D().getBounds();
+					continue;
+				}
+				if (name.equals(AbstractGridFormat.OVERVIEW_POLICY.getName().toString())) {
+					overviewPolicy = (OverviewPolicy) param.getValue();
+					continue;
 				}
 			}
 		}
